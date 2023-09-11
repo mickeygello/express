@@ -1,10 +1,28 @@
-const express = require('express')
-const mongoose = require('mongoose')
-const Product =  require("./model/product_model");
+import express from 'express';
+import * as dotenv from 'dotenv';
+import { userRouter, productRouter } from './routes/index.js';
+
+// import { connect } from 'mongoose';
+// import Product from "./model/product_model";
 
 const app = express()
+dotenv.config()
 
 // //Routes: GET, POST, PUT, DELETE
+app.get('/', (req, res) =>{
+    res.send("welcome to Home RESTful API");
+})
+
+// app.use('/users', userRouter)
+app.use('/users', userRouter)
+app.use('/products', productRouter)
+
+const port = process.env.PORT || 8080
+
+app.listen(port, () =>{
+    console.log(`Server is running on ${port}`);
+})
+
 
 // app.get('/', (req, res) => {
 //     res.status(200).json({ message: "hello world" })
@@ -40,14 +58,24 @@ const app = express()
 // })
 
 
+// app. post('/product',  async (req, res) =>{
+//     try{
+//         const product = await Product.create(req.body)
+//         if(product){
+//             res.status()
+//         }
+//     }
+// })
+
+
 //connect to mongodb
-mongoose.connect('mongodb+srv://tuna:mickeygello@cluster0.uecnjpo.mongodb.net/?retryWrites=true&w=majority')
-    .then(() =>{
-        console.log("connect mongoDB successfully");
-        app.listen(9999, () => {
-            console.log("server is running on port 9999");
-        })
+// connect('mongodb+srv://tuna:mickeygello@cluster0.uecnjpo.mongodb.net/?retryWrites=true&w=majority')
+//     .then(() =>{
+//         console.log("connect mongoDB successfully");
+//         app.listen(9999, () => {
+//             console.log("server is running on port 9999");
+//         })
         
-    }).catch((error) =>{
-        console.log(error.message);
-    })
+//     }).catch((error) =>{
+//         console.log(error.message);
+//     })
