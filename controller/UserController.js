@@ -1,4 +1,5 @@
 import { body, validationResult } from "express-validator";
+import { UserRepo } from "../Repository/index.js";
 
 const getAllUsers = async (req, res) => {
 
@@ -19,7 +20,7 @@ const login = async (req, res) => {
     //call repositori cua user
 
 
-    console.log(`emai: ${email} and password: ${password}`);
+    res.status(200).json({message:"login successfully"})
 }
 
 const register = async (req, res) => {
