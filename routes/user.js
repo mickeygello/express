@@ -1,5 +1,6 @@
 import express from 'express';
 import { body, validationResult } from 'express-validator';
+import { UserController } from '../controller/index.js';
 
 const userRouter = express.Router();
 
@@ -19,14 +20,9 @@ userRouter.post('/register', async (req, res) => {
 userRouter.post('/login',
     body("email").isEmail().withMessage("Invalid format email !!!"),
     body("password").isLength({ min: 5 }).withMessage("Password must be at least 5 characters !!"),
-    async (req, res) => {
-        // debugger
-        const error = validationResult(req)
-        if(!error.isEmpty()){
-            return res.status(400).json({errors: error.array()})
-        }
-        res.send("login successfully")
-    })
+    //debugger
+    UserController.login
+)
 
 userRouter.put('/edit', async (req, res) => {
     res.send("edit a new user")
