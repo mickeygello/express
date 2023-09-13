@@ -8,6 +8,12 @@ import { userRouter, productRouter } from './routes/index.js';
 const app = express()
 dotenv.config()
 
+//config cho express lam viec voi du lieu theo dinh dang json
+app.use(express.json())
+
+
+//debugger => run command "node inspect server.js" => c + enter => repl => req.body
+
 // //Routes: GET, POST, PUT, DELETE
 app.get('/', (req, res) =>{
     res.send("welcome to Home RESTful API");
@@ -20,7 +26,7 @@ app.use('/products', productRouter)
 const port = process.env.PORT || 8080
 
 app.listen(port, () =>{
-    console.log(`Server is running on ${port}`);
+    console.log(`Server is running on port ${port}`);
 })
 
 

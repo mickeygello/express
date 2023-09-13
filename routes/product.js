@@ -1,10 +1,11 @@
 import express from 'express';
-import productController from '../controller/ProductController.js';
+// import productController from '../controller/ProductController.js';
 
 const productRouter = express.Router();
 
 productRouter.get('/',  (req, res) =>{
-    productController.getAllProducts(req, res)
+    // productController.getAllProducts(req, res)
+    res.send("get all products")
 })
 
 productRouter.get('/:id', (req, res) =>{
