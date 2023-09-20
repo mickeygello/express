@@ -1,6 +1,7 @@
 import express from 'express';
 import * as dotenv from 'dotenv';
 import { userRouter, productRouter } from './routes/index.js';
+import connectDB from './database/database.js';
 
 // import { connect } from 'mongoose';
 // import Product from "./model/product_model";
@@ -26,6 +27,7 @@ app.use('/products', productRouter)
 const port = process.env.PORT || 8080
 
 app.listen(port, () =>{
+    connectDB()
     console.log(`Server is running on port ${port}`);
 })
 

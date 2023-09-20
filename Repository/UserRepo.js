@@ -1,21 +1,54 @@
 import User from "../model/UserModel.js";
 import bcrypt from "bcrypt"
+import jwt from "jsonwebtoken"
 
-const login = ({email, password}) =>{
-    console.log(`email: ${email} and password: ${password}`);
+const login = async ({ email, password }) => {
+    const userExisting = await User.findOne({ email }).exec()
+    if (userExisting) {
+        const isMatch = await bcrypt.compare(password, userExisting.password)
+        if (isMatch == true) {
+            //tao ra Access Token bang JWT
+            const accessToken = jwt.sign(
+                {
+                    data: userExisting
+                },
+                process.env.SECRET_KEY_JWT,
+                {
+                    expiresIn: "2 days"
+                }
+            )
+
+            return {
+                ...userExisting.toObject(),
+                password: "not show",
+                token: accessToken
+            }
+        } else {
+            throw new Error("Wrong email and password")
+        }
+
+    } else {
+        throw new Error("User not exist!")
+    }
+
 }
 
-const register = async ({name, email, password, phoneNumber, address}) =>{
-    const userExisting = await User.findOne({email}).exec()
-    if(userExisting != null){
+const register = async ({ name, email, password, phoneNumber, address }) => {
+    debugger
+    const userExisting = await User.findOne({ email }).exec()
+    if (userExisting != null) {
         throw new Error("User already exists")
     }
     //Hash password
-    const hashPassword = bcrypt.hash(password,parseInt(process.env.SECRET_KEY))
+    const hashPassword = await bcrypt.hash(password, parseInt(process.env.SECRET_KEY))
 
-    const newUser = await User.create({name, email, password: hashPassword, phoneNumber, address})
+    const newUser = await User.create({ name, email, password: hashPassword, phoneNumber, address })
 
-    return newUser;
+    //clone  a new user
+    return {
+        ...newUser._doc,
+        password: "not show"
+    };
 }
 
 export default {

@@ -15,10 +15,18 @@ const login = async (req, res) => {
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() })
     }
-    const {email, password} = req.body
+    const { email, password } = req.body
 
     //call repositori cua user
-    res.status(200).json({message:"login successfully"})
+    try {
+        const loginUser = await UserRepo.login({ email, password })
+        res.status(200).json({
+            message: "login successfully",
+            data: loginUser
+        })
+    } catch (error) {
+        res.status(500).json({ errors: error.toString() })
+    }
 }
 
 const register = async (req, res) => {
@@ -28,12 +36,21 @@ const register = async (req, res) => {
     }
 
     //destructuring obvject
-    const {name, email, password, phoneNumber, address} = req.body
-    UserRepo.register({name, email, password, phoneNumber, address})
+    const { name, email, password, phoneNumber, address } = req.body
+    try {
+        debugger
+        const newUser = await UserRepo.register({ name, email, password, phoneNumber, address })
+        res.status(201).json({
+            message: "User registered successfully",
+            data: newUser
+        })
+    } catch (error) {
+        res.status(500).json({ errors: error.toString() })
+    }
 }
 
 
-export default{
+export default {
     getAllUsers,
     getUserById,
     login,

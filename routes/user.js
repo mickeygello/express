@@ -13,11 +13,11 @@ userRouter.get('/:id', async (req, res) => {
     res.send("get user by id")
 })
 
-userRouter.post('/register', async (req, res) => {
+userRouter.post('/register',
     body("email").isEmail().withMessage("Invalid format email !!!"),
-    body("password").isLength({ min: 5 }).withMessage("Password must be at least 5 characters !!")
+    body("password").isLength({ min: 8 }).withMessage("Password must be at least 8 characters !!"),
     UserController.register
-})
+)
 
 userRouter.post('/login',
     body("email").isEmail().withMessage("Invalid format email !!!"),
