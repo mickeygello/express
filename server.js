@@ -2,7 +2,8 @@ import express from 'express';
 import * as dotenv from 'dotenv';
 import { userRouter, productRouter, studentRouter} from './routes/index.js';
 import connectDB from './database/database.js';
-
+//khai báo 1 middleware
+import checkToken from './author/authorization.js'
 // import { connect } from 'mongoose';
 // import Product from "./model/product_model";
 
@@ -12,6 +13,8 @@ dotenv.config()
 //config cho express lam viec voi du lieu theo dinh dang json
 app.use(express.json())
 
+//thiết lập 1 middleware để kiểm soát mọi request nó đi qua trên server
+app.use(checkToken)
 
 //debugger => run command "node inspect server.js" => c + enter => repl => req.body
 

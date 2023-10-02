@@ -1,32 +1,33 @@
-// const mongoose = require('mongoose');
-import mongoose from 'mongoose';
+import mongoose, {ObjectId, Schema} from "mongoose";    
 
-//define product schema
-const productSchema = mongoose.Schema({
-    name: {
+const Product = mongoose.model("Product", new Schema({
+    //model validation
+    "id":{
+        type: ObjectId
+    },
+    "name":{
         type: String,
-        required: [true, "please enter product name"]
+        require: true,
+        validate: {
+            validator: (value) => value.length > 3,
+            message: "length of name > 3"
+        }
     },
-    quantity:{
+    "price":{
         type: Number,
-        required: true,
-        default: 0
+        require: false,
+        validate:{
+            validator: (value) => value > 0,
+            message: "price must be greater than 0"
+        }
     },
-    price:{
+    "quantity":{
         type: Number,
-        required: true
-    },
-    image:{
-        type: String,
-        required: false
+        require: false
     }
 },
 {
     timestamps: true
-})
-
-//create product model
-const Product = mongoose.model('Product', productSchema);
-// module.exports = Product;
+}))
 
 export default Product;

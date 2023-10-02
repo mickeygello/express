@@ -1,34 +1,43 @@
-// import Product from "../model/product_model.js"
-// import express from "express"
+import { ProductRepo } from "../Repository/index.js";
 
-// const productController = {
-//     //function defined
-//     getAllProducts: async (req, res) => {
-//         const p = new Product({
-//             name: "product1",
-//             quantity: 3,
-//             price: 100,
-//             image: "blalalall"
-//         })
-//         const p2 = new Product({
-//             name: "product2",
-//             quantity: 4,
-//             price: 165,
-//             image: "lalalal"
-//         })
-//         const p3 = new Product({
-//             name: "product3",
-//             quantity: 7,
-//             price: 1668,
-//             image: "blalaal"
-//         })
-//         const list = [p, p2, p3]
-//         const products = await list
-//         if (!products) {
-//             return res.status(404).json({ message: "Products not found" })
-//         }
-//         res.status(200).json(list)
-//     }
-// }
+const getAllProducts = async (req, res) => {
+    try {
+        const products = await ProductRepo.getAllProducts();
+        res.status(200).json({
+            message: 'Get all products successfully.',
+            data: products
+        })
+    }
+    catch (error) {
+        res.status(500).json({
+            message: error.toString()
+        })
+    }
+}
 
-// export default productController
+const createProduct = async (req, res) => {
+    try {
+        const {
+            name,
+            price,
+            quantity
+        } = req.body;
+        const result = await ProductRepo.createProduct({ name, price, quantity });
+        if (!result) {
+            res.status(500).json({ message: "Create product failed" })
+        } else {
+            res.status(200).json({
+                message: "create product successfully",
+                data: result
+            })
+        }
+    } catch (error) {
+        res.status(500).json({ errors: error.toString() })
+    }
+}
+
+
+export default {
+    getAllProducts,
+    createProduct
+}
