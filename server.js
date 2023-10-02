@@ -1,6 +1,6 @@
 import express from 'express';
 import * as dotenv from 'dotenv';
-import { userRouter, productRouter } from './routes/index.js';
+import { userRouter, productRouter, studentRouter} from './routes/index.js';
 import connectDB from './database/database.js';
 
 // import { connect } from 'mongoose';
@@ -23,6 +23,7 @@ app.get('/', (req, res) =>{
 // app.use('/users', userRouter)
 app.use('/users', userRouter)
 app.use('/products', productRouter)
+app.use('/students', studentRouter)
 
 const port = process.env.PORT || 8080
 
