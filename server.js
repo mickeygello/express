@@ -7,8 +7,8 @@ import checkToken from './author/authorization.js'
 // import { connect } from 'mongoose';
 // import Product from "./model/product_model";
 
-const app = express()
 dotenv.config()
+const app = express()
 
 //config cho express lam viec voi du lieu theo dinh dang json
 app.use(express.json())

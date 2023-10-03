@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken"
 
-const checkToken = async (req, res, next) => {
+const checkToken = (req, res, next) => {
     //xác định những request nào đi qua mà k cần kiểm tra
     //Bypass: login, register,...
     debugger
@@ -25,6 +25,4 @@ const checkToken = async (req, res, next) => {
     }
 }
 
-export default{
-    checkToken
-}
+export default checkToken
