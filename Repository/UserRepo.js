@@ -1,5 +1,6 @@
 import User from "../model/UserModel.js";
 import bcrypt from "bcrypt"
+import { config } from "dotenv";
 import jwt from "jsonwebtoken"
 
 const login = async ({ email, password }) => {
@@ -18,9 +19,21 @@ const login = async ({ email, password }) => {
                 }
             )
 
+            const refreshToken = jwt.sign(
+                {
+                    data: userExisting
+                },
+                process.env.SECRET_KEY_JWT_REFRESH,
+                {
+                    expiresIn: "5m"
+                }
+            )
+
             return {
                 ...userExisting.toObject(),
+                // status: "Logged in",
                 password: "not show",
+                // refreshToken: refreshToken,
                 token: accessToken
             }
         } else {
